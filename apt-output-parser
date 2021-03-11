@@ -1,0 +1,34 @@
+import subprocess
+import os
+
+
+def readLine():
+  pkgArray = []
+  with open('packages.txt') as my_file:
+    for line in my_file:
+      pkgArray.append(line)
+  return pkgArray
+
+def cmdExecute():
+  pkgArray = readLine()
+  for item in pkgArray:
+    cmd = 'apt-cache rdepends ' + item
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+    (out, err) = p.communicate()
+    finalOutput(out)
+
+def finalOutput(out):
+  scrub = "test-2"
+  dlmtr = "*"*50
+  if scrub.rstrip() in out:
+    pass
+  else:
+    f=open("results.txt","a")
+    f.write(out)
+    f.write(dlmtr)
+    f.write("\n")
+    
+    
+
+if __name__ == '__main__':
+  cmdExecute()
